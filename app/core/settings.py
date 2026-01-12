@@ -21,5 +21,12 @@ class Settings(BaseSettings):
     # RQ
     rq_queue_name: str = "rca"
 
+    # CORS - for Next.js UI and browser clients
+    cors_origins: str = "http://localhost:3000,http://127.0.0.1:3000,http://localhost:3001,http://127.0.0.1:3001"
+
+    def get_cors_origins(self) -> list[str]:
+        """Parse CORS origins from comma-separated string."""
+        return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
+
 
 settings = Settings()
