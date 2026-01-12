@@ -54,7 +54,8 @@ class ProgressService:
         data = self.redis.hgetall(self._status_key(rca_run_id))
         if not data:
             return None
-        return data
+        # Redis returns bytes when decode_responses=False; normalize to strings for JSON
+        return {k.decode(): v.decode() for k, v in data.items()}
 
     def clear_status(self, rca_run_id: str) -> None:
         """Clear status hash (cleanup)."""
